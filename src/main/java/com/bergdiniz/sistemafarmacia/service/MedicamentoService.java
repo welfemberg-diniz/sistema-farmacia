@@ -37,6 +37,33 @@ public class MedicamentoService {
        return repository.findByName(nome).orElseThrow(() -> new MedicamentoNaoEncontrado("Medicamento não encontrado"));
     }
 
+    public Medicamento atualizarMedicamento(String nome, Medicamento dadosNovos){
+        Medicamento medicamentoAtualizado = repository.findByName(nome).orElseThrow(() -> new MedicamentoNaoEncontrado("Medicamento não encontrado"));
+
+        if (dadosNovos.getNome() != null){
+            medicamentoAtualizado.setNome(dadosNovos.getNome());
+        }
+        if (dadosNovos.getCodigo_barras() != null){
+            medicamentoAtualizado.setCodigo_barras(dadosNovos.getCodigo_barras());
+        }
+        if (dadosNovos.getConcentracao() != null){
+            medicamentoAtualizado.setConcentracao(dadosNovos.getConcentracao());
+        }
+        if (dadosNovos.getFabricante() != null){
+            medicamentoAtualizado.setFabricante(dadosNovos.getFabricante());
+        }
+        if (dadosNovos.getForma_farmaceutica() != null){
+            medicamentoAtualizado.setForma_farmaceutica(dadosNovos.getForma_farmaceutica());
+        }
+        if (dadosNovos.getEstoque() != null){
+            medicamentoAtualizado.setEstoque(dadosNovos.getEstoque());
+        }
+        if (dadosNovos.getQuantidade_medicamento() != null){
+            medicamentoAtualizado.setQuantidade_medicamento(dadosNovos.getQuantidade_medicamento());
+        }
+        return repository.saveAndFlush(medicamentoAtualizado);
+    }
+
 
 
 }
