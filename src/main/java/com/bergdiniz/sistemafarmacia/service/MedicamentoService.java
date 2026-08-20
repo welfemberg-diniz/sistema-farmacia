@@ -6,7 +6,11 @@ import com.bergdiniz.sistemafarmacia.exceptions.MedicamentoJaCadastrado;
 import com.bergdiniz.sistemafarmacia.exceptions.MedicamentoNaoEncontrado;
 import com.bergdiniz.sistemafarmacia.repository.MedicamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class MedicamentoService {
@@ -18,23 +22,31 @@ public class MedicamentoService {
 
         Medicamento medicamento = Medicamento.builder()
                 .nome(dto.getNome())
-                .forma_farmaceutica(dto.getForma_farmaceutica())
+                .formaFarmaceutica(dto.getFormaFarmaceutica())
                 .concentracao(dto.getConcentracao())
-                .quantidade_medicamento(dto.getQuantidade_medicamento())
-                .principio_ativo(dto.getPrincipio_ativo())
+                .quantidadePorEmbalagem(dto.getQuantidadePorEmbalagem())
+                .principioAtivo(dto.getPrincipioAtivo())
                 .fabricante(dto.getFabricante())
-                .codigo_barras(dto.getCodigo_barras())
-                .estoque(dto.getQuantidade_cadastrada())
+                .codigoBarras(dto.getCodigoBarras())
+                .quantidadeEntrada(dto.getQuantidadeEntrada())
                 .build();
 
-        if (repository.existsByCodigoBarras(medicamento.getCodigo_barras())){
+        if (repository.existsByCodigoBarras(medicamento.getCodigoBarras())){
             throw new MedicamentoJaCadastrado("Medicamento já cadastrado");
         }
         repository.save(medicamento);
     }
 
-    public Medicamento buscarMedicamento(String nome){
-       return repository.findByName(nome).orElseThrow(() -> new MedicamentoNaoEncontrado("Medicamento não encontrado"));
+    public Medicamento buscarPorCodigoBarras(String codigoBarras){
+        return repository.findByCodigoBarras(codigoBarras).orElseThrow(() -> new MedicamentoNaoEncontrado("Medicamento não encontrado"));
+    }
+
+    public List<Medicamento> buscarPorNome(String nome){
+        return repository.findByNomeContainingIgnoreCase(nome);
+    }
+
+    public Page<Medicamento> listarTodos(Pageable pageable){
+        return repository.findAll(pageable);
     }
 
     public Medicamento atualizarMedicamento(String nome, Medicamento dadosNovos){
@@ -43,8 +55,8 @@ public class MedicamentoService {
         if (dadosNovos.getNome() != null){
             medicamentoAtualizado.setNome(dadosNovos.getNome());
         }
-        if (dadosNovos.getCodigo_barras() != null){
-            medicamentoAtualizado.setCodigo_barras(dadosNovos.getCodigo_barras());
+        if (dadosNovos.getCodigoBarras() != null){
+            medicamentoAtualizado.setCodigoBarras(dadosNovos.getCodigoBarras());
         }
         if (dadosNovos.getConcentracao() != null){
             medicamentoAtualizado.setConcentracao(dadosNovos.getConcentracao());
@@ -52,16 +64,20 @@ public class MedicamentoService {
         if (dadosNovos.getFabricante() != null){
             medicamentoAtualizado.setFabricante(dadosNovos.getFabricante());
         }
-        if (dadosNovos.getForma_farmaceutica() != null){
-            medicamentoAtualizado.setForma_farmaceutica(dadosNovos.getForma_farmaceutica());
+        if (dadosNovos.getFormaFarmaceutica() != null){
+            medicamentoAtualizado.setFormaFarmaceutica(dadosNovos.getFormaFarmaceutica());
         }
-        if (dadosNovos.getEstoque() != null){
-            medicamentoAtualizado.setEstoque(dadosNovos.getEstoque());
+        if (dadosNovos.getQuantidadeEntrada() != null){
+            medicamentoAtualizado.setQuantidadeEntrada(dadosNovos.getQuantidadeEntrada());
         }
-        if (dadosNovos.getQuantidade_medicamento() != null){
-            medicamentoAtualizado.setQuantidade_medicamento(dadosNovos.getQuantidade_medicamento());
+        if (dadosNovos.getQuantidadePorEmbalagem() != null){
+            medicamentoAtualizado.setQuantidadePorEmbalagem(dadosNovos.getQuantidadePorEmbalagem());
         }
         return repository.saveAndFlush(medicamentoAtualizado);
+    }
+    public void deletarMedicamento(String codigoBarras){
+        Medicamento medicamentoAlvo = repository.findByCodigoBarras(codigoBarras).orElseThrow(()-> new MedicamentoNaoEncontrado("Medicamento não encontrado"));
+        repository.delete(medicamentoAlvo);
     }
 
 

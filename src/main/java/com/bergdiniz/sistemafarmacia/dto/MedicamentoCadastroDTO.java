@@ -21,21 +21,21 @@ public class MedicamentoCadastroDTO {
     private String concentracao;
 
     @NotBlank
-    private String principio_ativo;
+    private String principioAtivo;
 
     @NotBlank
-    private String forma_farmaceutica;
+    private String formaFarmaceutica;
 
    @NotBlank
-    private String quantidade_medicamento;
+    private String quantidadePorEmbalagem;
 
     @NotBlank
     private String fabricante;
 
     @NotBlank
-    private String codigo_barras;
+    private String codigoBarras;
 
     @NotNull
     @Positive
-    private Integer quantidade_cadastrada;
+    private Integer quantidadeEntrada;
 }

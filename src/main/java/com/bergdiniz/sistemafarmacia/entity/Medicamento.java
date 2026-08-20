@@ -27,22 +27,22 @@ public class Medicamento {
     private String concentracao;
 
     @Column (name = "principio_ativo")
-    private String principio_ativo;
+    private String principioAtivo;
 
     @Column (name = "forma_farmaceutica")
-    private String forma_farmaceutica;
+    private String formaFarmaceutica;
 
     @Column (name = "quantidade_medicamento")
-    private String quantidade_medicamento;
+    private String quantidadePorEmbalagem;
 
     @Column (name = "fabricante")
     private String fabricante;
 
     @Column (name = "codigo_barras")
-    private String codigo_barras;
+    private String codigoBarras;
 
     @Column (name = "estoque")
-    private Integer estoque;
+    private Integer quantidadeEntrada;
 
 
 
