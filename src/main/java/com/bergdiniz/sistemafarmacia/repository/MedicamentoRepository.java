@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface MedicamentoRepository extends JpaRepository <Medicamento, UUID> {
 
-    Optional <Medicamento> findByName(String nome);
+
     Optional <Medicamento> findByCodigoBarras (String codigoBarras);
     boolean existsByCodigoBarras(String codigo_barras);
     List<Medicamento> findByNomeContainingIgnoreCase (String nome);

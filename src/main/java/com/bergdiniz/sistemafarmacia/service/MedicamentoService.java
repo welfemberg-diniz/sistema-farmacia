@@ -1,7 +1,9 @@
 package com.bergdiniz.sistemafarmacia.service;
 
 import com.bergdiniz.sistemafarmacia.dto.MedicamentoCadastroDTO;
+import com.bergdiniz.sistemafarmacia.dto.MedicamentoEntradaDTO;
 import com.bergdiniz.sistemafarmacia.entity.Medicamento;
+import com.bergdiniz.sistemafarmacia.exceptions.EstoqueInsuficiente;
 import com.bergdiniz.sistemafarmacia.exceptions.MedicamentoJaCadastrado;
 import com.bergdiniz.sistemafarmacia.exceptions.MedicamentoNaoEncontrado;
 import com.bergdiniz.sistemafarmacia.repository.MedicamentoRepository;
@@ -18,7 +20,7 @@ public class MedicamentoService {
     @Autowired
     private MedicamentoRepository repository;
 
-    public void cadastrarMedicamento(MedicamentoCadastroDTO dto){
+    public void cadastrarNovoMedicamento(MedicamentoCadastroDTO dto){
 
         Medicamento medicamento = Medicamento.builder()
                 .nome(dto.getNome())
@@ -28,12 +30,22 @@ public class MedicamentoService {
                 .principioAtivo(dto.getPrincipioAtivo())
                 .fabricante(dto.getFabricante())
                 .codigoBarras(dto.getCodigoBarras())
-                .quantidadeEntrada(dto.getQuantidadeEntrada())
+                .estoque(dto.getQuantidadeEntrada())
                 .build();
 
         if (repository.existsByCodigoBarras(medicamento.getCodigoBarras())){
             throw new MedicamentoJaCadastrado("Medicamento já cadastrado");
         }
+        repository.save(medicamento);
+    }
+
+    public void entradaMedicamento(MedicamentoEntradaDTO dtoEntrada){
+        Medicamento medicamento = Medicamento.builder()
+                .nome(dtoEntrada.getNome())
+                .concentracao(dtoEntrada.getConcentracao())
+                .codigoBarras(dtoEntrada.getCodigoBarras())
+                .build();
+
         repository.save(medicamento);
     }
 
@@ -67,8 +79,8 @@ public class MedicamentoService {
         if (dadosNovos.getFormaFarmaceutica() != null){
             medicamentoAtualizado.setFormaFarmaceutica(dadosNovos.getFormaFarmaceutica());
         }
-        if (dadosNovos.getQuantidadeEntrada() != null){
-            medicamentoAtualizado.setQuantidadeEntrada(dadosNovos.getQuantidadeEntrada());
+        if (dadosNovos.getEstoque() != null){
+            medicamentoAtualizado.setEstoque(dadosNovos.getEstoque());
         }
         if (dadosNovos.getQuantidadePorEmbalagem() != null){
             medicamentoAtualizado.setQuantidadePorEmbalagem(dadosNovos.getQuantidadePorEmbalagem());
@@ -78,6 +90,16 @@ public class MedicamentoService {
     public void deletarMedicamento(String codigoBarras){
         Medicamento medicamentoAlvo = repository.findByCodigoBarras(codigoBarras).orElseThrow(()-> new MedicamentoNaoEncontrado("Medicamento não encontrado"));
         repository.delete(medicamentoAlvo);
+    }
+    public void saidaMedicamento(String codigoBarras, int quantidade){
+        Medicamento medicamentoAlvo = repository.findByCodigoBarras(codigoBarras).orElseThrow(() -> new MedicamentoNaoEncontrado("Medicamento não encontrado"));
+
+        if (quantidade > medicamentoAlvo.getEstoque()){
+            throw new EstoqueInsuficiente ("Estoque insuficiente");
+        }
+        medicamentoAlvo.setEstoque(medicamentoAlvo.getEstoque() - quantidade);
+
+        repository.save(medicamentoAlvo);
     }
 
 

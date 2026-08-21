@@ -3,6 +3,7 @@ package com.bergdiniz.sistemafarmacia.controller;
 import com.bergdiniz.sistemafarmacia.dto.MedicamentoCadastroDTO;
 import com.bergdiniz.sistemafarmacia.entity.Medicamento;
 import com.bergdiniz.sistemafarmacia.service.MedicamentoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -29,8 +30,8 @@ public ResponseEntity<?> buscarMedicamento(@RequestBody String nome, @RequestBod
 }
 
 @PostMapping
-    public ResponseEntity<?> cadastrarMedicamento(@RequestBody MedicamentoCadastroDTO dto){
-    service.cadastrarMedicamento(dto);
+    public ResponseEntity<?> cadastrarNovoMedicamento(@RequestBody @Valid MedicamentoCadastroDTO dto){
+    service.cadastrarNovoMedicamento(dto);
     return ResponseEntity.ok().build();
 }
 

@@ -42,7 +42,7 @@ public class Medicamento {
     private String codigoBarras;
 
     @Column (name = "estoque")
-    private Integer quantidadeEntrada;
+    private Integer estoque;
 
 
 
