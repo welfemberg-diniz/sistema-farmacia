@@ -49,8 +49,8 @@ public class MedicamentoService {
         return repository.findAll(pageable);
     }
 
-    public Medicamento atualizarMedicamento(String nome, Medicamento dadosNovos){
-        Medicamento medicamentoAtualizado = repository.findByName(nome).orElseThrow(() -> new MedicamentoNaoEncontrado("Medicamento não encontrado"));
+    public Medicamento atualizarMedicamento(String codigoBarras, Medicamento dadosNovos){
+        Medicamento medicamentoAtualizado = repository.findByCodigoBarras(codigoBarras).orElseThrow(() -> new MedicamentoNaoEncontrado("Medicamento não encontrado"));
 
         if (dadosNovos.getNome() != null){
             medicamentoAtualizado.setNome(dadosNovos.getNome());

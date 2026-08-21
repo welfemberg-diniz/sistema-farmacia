@@ -1,13 +1,12 @@
 package com.bergdiniz.sistemafarmacia.controller;
 
+import com.bergdiniz.sistemafarmacia.dto.MedicamentoCadastroDTO;
+import com.bergdiniz.sistemafarmacia.entity.Medicamento;
 import com.bergdiniz.sistemafarmacia.service.MedicamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,7 +18,7 @@ public class MedicamentoController {
     private MedicamentoService service;
 
 @GetMapping
-public ResponseEntity<?> buscarMedicamento(@RequestParam String nome, @RequestParam String codigoBarras, Pageable pageable){
+public ResponseEntity<?> buscarMedicamento(@RequestBody String nome, @RequestBody String codigoBarras, Pageable pageable){
     if (codigoBarras != null){
         return ResponseEntity.ok().body(service.buscarPorCodigoBarras(codigoBarras));
     }
@@ -29,4 +28,20 @@ public ResponseEntity<?> buscarMedicamento(@RequestParam String nome, @RequestPa
     return ResponseEntity.ok().body(service.listarTodos(pageable));
 }
 
+@PostMapping
+    public ResponseEntity<?> cadastrarMedicamento(@RequestBody MedicamentoCadastroDTO dto){
+    service.cadastrarMedicamento(dto);
+    return ResponseEntity.ok().build();
+}
+
+@PatchMapping
+    public ResponseEntity<?> atualizarMedicamento(@RequestBody String codigoBarras, Medicamento dadosNovos){
+    return ResponseEntity.ok().body(service.atualizarMedicamento(codigoBarras, dadosNovos));
+}
+
+@DeleteMapping
+    public ResponseEntity<?> deletarMedicamento(@RequestBody String codigoBarras){
+    service.deletarMedicamento(codigoBarras);
+    return ResponseEntity.ok().build();
+}
 }
