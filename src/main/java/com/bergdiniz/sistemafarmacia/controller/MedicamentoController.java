@@ -19,7 +19,11 @@ public class MedicamentoController {
     private MedicamentoService service;
 
 @GetMapping
-public ResponseEntity<?> buscarMedicamento(@RequestBody String nome, @RequestBody String codigoBarras, Pageable pageable){
+public ResponseEntity<?> buscarMedicamento(
+        @RequestParam(required = false) String nome,
+        @RequestBody(required = false) String codigoBarras,
+        Pageable pageable){
+
     if (codigoBarras != null){
         return ResponseEntity.ok().body(service.buscarPorCodigoBarras(codigoBarras));
     }
@@ -41,7 +45,7 @@ public ResponseEntity<?> buscarMedicamento(@RequestBody String nome, @RequestBod
 }
 
 @DeleteMapping
-    public ResponseEntity<?> deletarMedicamento(@RequestBody String codigoBarras){
+    public ResponseEntity<?> deletarMedicamento(@RequestParam String codigoBarras){
     service.deletarMedicamento(codigoBarras);
     return ResponseEntity.ok().build();
 }

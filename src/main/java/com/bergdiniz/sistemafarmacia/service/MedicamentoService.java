@@ -20,6 +20,7 @@ public class MedicamentoService {
     @Autowired
     private MedicamentoRepository repository;
 
+
     public void cadastrarNovoMedicamento(MedicamentoCadastroDTO dto){
 
         Medicamento medicamento = Medicamento.builder()
@@ -39,27 +40,25 @@ public class MedicamentoService {
         repository.save(medicamento);
     }
 
-    public void entradaMedicamento(MedicamentoEntradaDTO dtoEntrada){
-        Medicamento medicamento = Medicamento.builder()
-                .nome(dtoEntrada.getNome())
-                .concentracao(dtoEntrada.getConcentracao())
-                .codigoBarras(dtoEntrada.getCodigoBarras())
-                .build();
-
-        repository.save(medicamento);
-    }
 
     public Medicamento buscarPorCodigoBarras(String codigoBarras){
         return repository.findByCodigoBarras(codigoBarras).orElseThrow(() -> new MedicamentoNaoEncontrado("Medicamento não encontrado"));
     }
 
     public List<Medicamento> buscarPorNome(String nome){
-        return repository.findByNomeContainingIgnoreCase(nome);
+       List <Medicamento> medicamentos = repository.findByNomeContainingIgnoreCase(nome);
+
+       if (medicamentos.isEmpty()){
+           throw new MedicamentoNaoEncontrado("Medicamento não encontrado");
+       }
+       return medicamentos;
+
     }
 
     public Page<Medicamento> listarTodos(Pageable pageable){
         return repository.findAll(pageable);
     }
+
 
     public Medicamento atualizarMedicamento(String codigoBarras, Medicamento dadosNovos){
         Medicamento medicamentoAtualizado = repository.findByCodigoBarras(codigoBarras).orElseThrow(() -> new MedicamentoNaoEncontrado("Medicamento não encontrado"));
@@ -87,20 +86,13 @@ public class MedicamentoService {
         }
         return repository.saveAndFlush(medicamentoAtualizado);
     }
+
+
     public void deletarMedicamento(String codigoBarras){
         Medicamento medicamentoAlvo = repository.findByCodigoBarras(codigoBarras).orElseThrow(()-> new MedicamentoNaoEncontrado("Medicamento não encontrado"));
         repository.delete(medicamentoAlvo);
     }
-    public void saidaMedicamento(String codigoBarras, int quantidade){
-        Medicamento medicamentoAlvo = repository.findByCodigoBarras(codigoBarras).orElseThrow(() -> new MedicamentoNaoEncontrado("Medicamento não encontrado"));
 
-        if (quantidade > medicamentoAlvo.getEstoque()){
-            throw new EstoqueInsuficiente ("Estoque insuficiente");
-        }
-        medicamentoAlvo.setEstoque(medicamentoAlvo.getEstoque() - quantidade);
-
-        repository.save(medicamentoAlvo);
-    }
 
 
 

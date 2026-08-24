@@ -1,6 +1,7 @@
 package com.bergdiniz.sistemafarmacia.controller;
 
 import com.bergdiniz.sistemafarmacia.dto.MedicamentoEntradaDTO;
+import com.bergdiniz.sistemafarmacia.service.EstoqueService;
 import com.bergdiniz.sistemafarmacia.service.MedicamentoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class EstoqueController {
 
     @Autowired
-    private MedicamentoService service;
+    private EstoqueService service;
 
     @PostMapping
     public ResponseEntity<?> entradaMedicamento(@RequestBody @Valid MedicamentoEntradaDTO dtoEntrada){
