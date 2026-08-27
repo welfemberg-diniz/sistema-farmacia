@@ -25,12 +25,12 @@ public ResponseEntity<?> buscarMedicamento(
         Pageable pageable){
 
     if (codigoBarras != null){
-        return ResponseEntity.ok().body(service.buscarPorCodigoBarras(codigoBarras));
+        return ResponseEntity.ok(service.buscarPorCodigoBarras(codigoBarras));
     }
     if (nome != null){
-        return ResponseEntity.ok().body(service.buscarPorNome(nome));
+        return ResponseEntity.ok(service.buscarPorNome(nome));
     }
-    return ResponseEntity.ok().body(service.listarTodos(pageable));
+    return ResponseEntity.ok(service.listarTodos(pageable));
 }
 
 @PostMapping

@@ -1,5 +1,6 @@
 package com.bergdiniz.sistemafarmacia.repository;
 
+import com.bergdiniz.sistemafarmacia.dto.MedicamentoResponseDTO;
 import com.bergdiniz.sistemafarmacia.entity.Medicamento;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -12,5 +13,5 @@ public interface MedicamentoRepository extends JpaRepository <Medicamento, UUID>
 
     Optional <Medicamento> findByCodigoBarras (String codigoBarras);
     boolean existsByCodigoBarras(String codigo_barras);
-    List<Medicamento> findByNomeContainingIgnoreCase (String nome);
+    List<MedicamentoResponseDTO> findByNomeContainingIgnoreCase (String nome);
 }

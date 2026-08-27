@@ -17,9 +17,9 @@ public class EstoqueService {
 
     public void entradaMedicamento(MedicamentoEntradaDTO dtoEntrada){
         Medicamento medicamento = Medicamento.builder()
-                .nome(dtoEntrada.getNome())
-                .concentracao(dtoEntrada.getConcentracao())
-                .codigoBarras(dtoEntrada.getCodigoBarras())
+                .nome(dtoEntrada.nome())
+                .concentracao(dtoEntrada.concentracao())
+                .codigoBarras(dtoEntrada.codigoBarras())
                 .build();
 
         repository.save(medicamento);

@@ -3,39 +3,23 @@ package com.bergdiniz.sistemafarmacia.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class MedicamentoCadastroDTO {
+public record MedicamentoCadastroDTO (
 
-    @NotBlank
-    private String nome;
+    @NotBlank String nome,
 
-    @NotBlank
-    private String concentracao;
+    @NotBlank String concentracao,
 
-    @NotBlank
-    private String principioAtivo;
+    @NotBlank String principioAtivo,
 
-    @NotBlank
-    private String formaFarmaceutica;
+    @NotBlank String formaFarmaceutica,
 
-   @NotBlank
-    private String quantidadePorEmbalagem;
+   @NotBlank String quantidadePorEmbalagem,
 
-    @NotBlank
-    private String fabricante;
+    @NotBlank String fabricante,
 
-    @NotBlank
-    private String codigoBarras;
+    @NotBlank String codigoBarras,
 
-    @NotNull
-    @Positive
-    private Integer quantidadeEntrada;
-}
+    @NotNull @Positive Integer quantidadeEntrada
+
+){}

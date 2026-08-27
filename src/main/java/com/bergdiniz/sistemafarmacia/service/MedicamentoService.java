@@ -2,6 +2,7 @@ package com.bergdiniz.sistemafarmacia.service;
 
 import com.bergdiniz.sistemafarmacia.dto.MedicamentoCadastroDTO;
 import com.bergdiniz.sistemafarmacia.dto.MedicamentoEntradaDTO;
+import com.bergdiniz.sistemafarmacia.dto.MedicamentoResponseDTO;
 import com.bergdiniz.sistemafarmacia.entity.Medicamento;
 import com.bergdiniz.sistemafarmacia.exceptions.EstoqueInsuficiente;
 import com.bergdiniz.sistemafarmacia.exceptions.MedicamentoJaCadastrado;
@@ -24,14 +25,14 @@ public class MedicamentoService {
     public void cadastrarNovoMedicamento(MedicamentoCadastroDTO dto){
 
         Medicamento medicamento = Medicamento.builder()
-                .nome(dto.getNome())
-                .formaFarmaceutica(dto.getFormaFarmaceutica())
-                .concentracao(dto.getConcentracao())
-                .quantidadePorEmbalagem(dto.getQuantidadePorEmbalagem())
-                .principioAtivo(dto.getPrincipioAtivo())
-                .fabricante(dto.getFabricante())
-                .codigoBarras(dto.getCodigoBarras())
-                .estoque(dto.getQuantidadeEntrada())
+                .nome(dto.nome())
+                .formaFarmaceutica(dto.formaFarmaceutica())
+                .concentracao(dto.concentracao())
+                .quantidadePorEmbalagem(dto.quantidadePorEmbalagem())
+                .principioAtivo(dto.principioAtivo())
+                .fabricante(dto.fabricante())
+                .codigoBarras(dto.codigoBarras())
+                .estoque(dto.quantidadeEntrada())
                 .build();
 
         if (repository.existsByCodigoBarras(medicamento.getCodigoBarras())){
@@ -45,8 +46,8 @@ public class MedicamentoService {
         return repository.findByCodigoBarras(codigoBarras).orElseThrow(() -> new MedicamentoNaoEncontrado("Medicamento não encontrado"));
     }
 
-    public List<Medicamento> buscarPorNome(String nome){
-       List <Medicamento> medicamentos = repository.findByNomeContainingIgnoreCase(nome);
+    public List<MedicamentoResponseDTO> buscarPorNome(String nome){
+       List <MedicamentoResponseDTO> medicamentos = repository.findByNomeContainingIgnoreCase(nome);
 
        if (medicamentos.isEmpty()){
            throw new MedicamentoNaoEncontrado("Medicamento não encontrado");
