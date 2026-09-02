@@ -56,8 +56,8 @@ public class MedicamentoService {
 
     }
 
-    public Page<Medicamento> listarTodos(Pageable pageable){
-        return repository.findAll(pageable);
+    public Page<MedicamentoResponseDTO> listarTodos(Pageable pageable){
+        return repository.findTodos(pageable);
     }
 
 

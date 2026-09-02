@@ -5,5 +5,6 @@ public record MedicamentoResponseDTO(
         String concentracao,
         String formaFarmaceutica,
         String quantidadePorEmbalagem,
-        String fabricante
+        String fabricante,
+        Integer estoque
 ) {}

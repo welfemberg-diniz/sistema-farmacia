@@ -21,7 +21,7 @@ public class MedicamentoController {
 @GetMapping
 public ResponseEntity<?> buscarMedicamento(
         @RequestParam(required = false) String nome,
-        @RequestBody(required = false) String codigoBarras,
+        @RequestParam(required = false) String codigoBarras,
         Pageable pageable){
 
     if (codigoBarras != null){
@@ -40,7 +40,7 @@ public ResponseEntity<?> buscarMedicamento(
 }
 
 @PatchMapping
-    public ResponseEntity<?> atualizarMedicamento(@RequestBody String codigoBarras, Medicamento dadosNovos){
+    public ResponseEntity<?> atualizarMedicamento(@RequestParam String codigoBarras, @RequestBody Medicamento dadosNovos){
     return ResponseEntity.ok().body(service.atualizarMedicamento(codigoBarras, dadosNovos));
 }
 

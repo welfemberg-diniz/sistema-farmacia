@@ -30,6 +30,20 @@ public class GlobalExceptionHandler {
                 .body(ex.getMessage());
     }
 
+    @ExceptionHandler (MedicamentoNaoCadastrado.class)
+    public ResponseEntity<String> naoCadastrado(MedicamentoNaoCadastrado ex){
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(ex.getMessage());
+    }
+
+    @ExceptionHandler (DadosIncorretos.class)
+    public ResponseEntity<String> dadosIncorretos(DadosIncorretos ex){
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(ex.getMessage());
+    }
+
     @ExceptionHandler (MethodArgumentNotValidException.class)
     public ResponseEntity<String> erroValidarCadastro(MethodArgumentNotValidException ex){
         return ResponseEntity
@@ -38,5 +52,6 @@ public class GlobalExceptionHandler {
                         " formaFarmaceutica, quantidadePorEmbalagem, fabricante, codigoBarras," +
                         " quantidadeEntrada");
     }
+
 
 }
